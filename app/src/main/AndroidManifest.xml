@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EatHealthy">
         <!--Added Splash Screen Activity-->
-        <activity android:name=".SplashScreen">
+        <activity android:name=".activity.SplashScreen">
 
             <!--Added code as this activity is the main and launcher activity-->
             <intent-filter>
@@ -20,7 +20,7 @@
         </activity>
 
         <!--Removed the launcher activity code from the mainactivity below-->
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".activity.MainActivity"></activity>
     </application>
 
 </manifest>

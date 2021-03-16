@@ -17,17 +17,18 @@ class MainActivity : AppCompatActivity() {
     lateinit var navigationView: NavigationView
     lateinit var frameLayout: FrameLayout
     lateinit var drawerLayout : DrawerLayout
+    lateinit var title : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        var title: String = "Home"
+        title ="Home"
         mainToolbar = findViewById(R.id.mainToolbar)
         navigationView = findViewById(R.id.navigationView)
         frameLayout = findViewById(R.id.frameLayout)
         drawerLayout = findViewById(R.id.drawerLayout)
 
-        setUpToolBar(title)
+        setUpToolBar()
 
         var actionBarDrawerToggle = ActionBarDrawerToggle(
             this,
@@ -42,17 +43,12 @@ class MainActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.mi_home -> {
-                    title = "Home" // set title of fragment
-                    setUpToolBar(title)
-                    supportFragmentManager.beginTransaction() // to begin the fragment transaction
-                        .replace(frameLayout.id, HomeFragment()) // replace the current frame with the required fragment
-                        .commit()
-                    drawerLayout.closeDrawers() //close the navigation drawer
+                    displayHome()
                 }
 
                 R.id.mi_favorites -> {
                     title = "Favorites" // set title of fragment
-                    setUpToolBar(title)
+                    setUpToolBar()
                     supportFragmentManager.beginTransaction() // to begin the fragment transaction
                         .replace(frameLayout.id, FavoritesFragment())// replace the current frame with the required fragment
                         .commit()
@@ -61,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.mi_profile -> {
                     title = "Profile" // set title of fragment
-                    setUpToolBar(title)
+                    setUpToolBar()
                     supportFragmentManager.beginTransaction() // to begin the fragment transaction
                         .replace(frameLayout.id, ProfileFragment()) // replace the current frame with the required fragment
                         .commit()
@@ -70,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.mi_faq -> {
                     title = "FAQ" // set title of fragment
-                    setUpToolBar(title)
+                    setUpToolBar()
                     supportFragmentManager.beginTransaction() // to begin the fragment transaction
                         .replace(frameLayout.id, FAQFragment()) // replace the current frame with the required fragment
                         .commit()
@@ -81,16 +77,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpToolBar(title:String) {
+    private fun displayHome(){
+        title = "Home" // set title of fragment
+        setUpToolBar()
+        supportFragmentManager.beginTransaction() // to begin the fragment transaction
+            .replace(frameLayout.id, HomeFragment()) // replace the current frame with the required fragment
+            .commit()
+        drawerLayout.closeDrawers() //close the navigation drawer
+    }
+
+    private fun setUpToolBar() {
         setSupportActionBar(mainToolbar)
         supportActionBar?.title = title //set the title of the toolbar
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // Displays the home button
     }
 
+    // on clicking the back button from any of the fragment screen, open the home fragment. If on Home screen close the app default behaviour
     override fun onBackPressed() {
-        if(it)
-        super.onBackPressed()
+        when(supportFragmentManager.findFragmentById(R.id.frameLayout)) {
+            !is HomeFragment -> displayHome()
+            else -> super.onBackPressed()
+        }
     }
 
     //To open the navigation drawer on click of hamburger icon in the toolbar

@@ -9,13 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EatHealthy">
+        <!--Added Splash Screen Activity-->
         <activity android:name=".SplashScreen">
+
+            <!--Added code as this activity is the main and launcher activity-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--Removed the launcher activity code from the mainactivity below-->
         <activity android:name=".MainActivity"></activity>
     </application>
 
